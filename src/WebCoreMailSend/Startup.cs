@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebCoreMailSend.Helpers;
 
 namespace WebCoreMailSend
 {
@@ -29,14 +30,16 @@ namespace WebCoreMailSend
         {
             // Add framework services.
             services.AddMvc();
+            services.AddScoped<ViewRender, ViewRender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+#if DEBUG
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+#endif
             app.UseMvc();
         }
     }
